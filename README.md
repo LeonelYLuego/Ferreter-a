@@ -1,4 +1,4 @@
-# ferreteria
+# Ferretería
 
 > Programa para el control del almacén de una ferretería
 
