@@ -31,14 +31,16 @@ app.use(morgan('tiny'));
 const product = require('./routes/product');
 const classification = require('./routes/classification');
 const provider = require('./routes/provider');
+const measure = require('./routes/measure');
 app.use('/product', product);
 app.use('/classification', classification);
 app.use('/provider', provider);
+app.use('/measure', measure);
 
 
 app.use(express.static('public'));
 
 app.listen(app.get('port'), () => {
-    console.log(app.get('appName')); //Obtiene una variable
+    console.log(app.get('appName'));
     console.log('Server on port', app.get('port'));
 });

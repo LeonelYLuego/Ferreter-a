@@ -12,7 +12,16 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    product.find({}, (err, data) => {
+    product.find().populate('provider').populate('measure').populate('classification').exec((err, data) => {
+        if(err)
+            res.status(400).json(err);
+        else
+            res.json(data);
+    });
+});
+
+router.get('/code/:code', (req, res) => {
+    product.findOne({code:req.params.code}, (err, data) => {
         if(err)
             res.status(400).json(err);
         else
