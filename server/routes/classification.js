@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    classification.find({}, (err, data) => {
+    classification.find({}).sort([['description',1]]).exec((err, data) => {
         if(err)
             res.status(400).json(err);
         else

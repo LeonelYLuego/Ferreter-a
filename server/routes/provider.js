@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    provider.find({}, (err, data) => {
+    provider.find({}).sort([['name',1]]).exec((err, data) => {
         if(err)
             res.status(400);
         else

@@ -16,6 +16,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+#app{
+  min-height: 100vh;
+}
 </style>

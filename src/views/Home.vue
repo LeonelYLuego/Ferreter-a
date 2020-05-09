@@ -1,6 +1,6 @@
 <template>
     <div id="Home">
-        <h1>Hola mundo</h1>
+        <h1>Bienvenido a Ferretería del Parque</h1>
     </div>
 </template>
 

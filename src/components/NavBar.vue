@@ -8,7 +8,11 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item to="/products">Productos</b-nav-item>
-                    <b-nav-item href="#" disabled>Disabled</b-nav-item>
+                    <b-nav-item href="#" disabled>Clientes</b-nav-item>
+                    <b-nav-item href="#" disabled>Proveedores</b-nav-item>
+                    <b-nav-item-dropdown text="Otros" disabled>
+                        <b-nav-item href="#" disabled>Clasificaciones</b-nav-item>
+                    </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -17,6 +21,7 @@
 
 <style scoped>
 #navbar{
-    background-color: black;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 </style>
