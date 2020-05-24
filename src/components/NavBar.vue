@@ -9,7 +9,7 @@
                 <b-navbar-nav>
                     <b-nav-item to="/products">Productos</b-nav-item>
                     <b-nav-item href="#" disabled>Clientes</b-nav-item>
-                    <b-nav-item href="#" disabled>Proveedores</b-nav-item>
+                    <b-nav-item to="/providers">Proveedores</b-nav-item>
                     <b-nav-item-dropdown text="Otros" disabled>
                         <b-nav-item href="#" disabled>Clasificaciones</b-nav-item>
                     </b-nav-item-dropdown>

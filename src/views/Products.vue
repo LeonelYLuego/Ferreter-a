@@ -1,13 +1,9 @@
-<!-- 
-Search bar
-Vuex localhost
- -->
 <template>
     <div id="products">
         <h2>Productos</h2>
 
         <div id="searchProduct" class="d-inline">
-            <b-form-input class="d-inline w-25" type="search" placeholder="Buscar producto" v-model="search" @keyup.enter.native="searchProduct"></b-form-input>
+            <b-form-input class="d-inline w-25" type="search" placeholder="Buscar producto" v-model="search" @keyup.enter.native="searchProduct" @input="clearSearch"></b-form-input>
             <b-button variant="outline-success" class="my-2 my-sm-0" type="button" @click="searchProduct">Buscar</b-button>
         </div>
         
@@ -164,7 +160,7 @@ export default {
     methods:{
         getTable(){
             this.items = [];
-            axios.get('http://localhost:3000/product')
+            axios.get(this.$store.state.serverPath + 'product')
             .then(res => {
                 for(var product of res.data)
                     this.items.push(this.getItem(product));
@@ -189,7 +185,7 @@ export default {
             }
         },
         getClassifications(){
-            axios.get('http://localhost:3000/classification')
+            axios.get(this.$store.state.serverPath + 'classification')
             .then(res => {
                 for(var classification of res.data){
                     let item = {
@@ -201,7 +197,7 @@ export default {
             });
         },
         getMeasures(){
-            axios.get('http://localhost:3000/measure')
+            axios.get(this.$store.state.serverPath + 'measure')
             .then(res => {
                 for(var measure of res.data){
                     let item = {
@@ -210,10 +206,13 @@ export default {
                     };
                     this.measures.push(item);
                 }
+            })
+            .catch(err => {
+                console.log(err);
             });
         },
         getProvider(){
-            axios.get('http://localhost:3000/provider')
+            axios.get(this.$store.state.serverPath + 'provider')
             .then(res => {
                 for(var provider of res.data){
                     let item = {
@@ -222,16 +221,22 @@ export default {
                     };
                     this.providers.push(item);
                 }
+            })
+            .catch(err => {
+                console.log(err);
             });
         },
         getModify(_id){
-            axios.get('http://localhost:3000/product/' + _id)
+            axios.get(this.$store.state.serverPath + 'product/' + _id)
             .then(res => {
                 for(var input in this.product)
                     this.product[input].value = res.data[input];
                 this.product.code.state = null;
                 this.modify = true;
                 this.$bvModal.show('modal-product');
+            })
+            .catch(err => {
+                console.log(err);
             });
         },
         showRemoveModal(product){
@@ -247,7 +252,7 @@ export default {
         },
         sendAddProduct(){
             if(this.validateProduct()){
-                axios.post('http://localhost:3000/product',this.chargeData())
+                axios.post(this.$store.state.serverPath + 'product',this.chargeData())
                 .then(res => {
                     if(res.status == 200){
                         this.product.code = {value:'', state:null, validate:this.validateCode};
@@ -264,7 +269,7 @@ export default {
         },
         sendModifyProduct(){
             if(this.validateProduct()){
-                axios.put('http://localhost:3000/product', this.chargeData())
+                axios.put(this.$store.state.serverPath + 'product', this.chargeData())
                 .then(res => {
                     if(res.status == 200){
                         for(var i = 0; i < this.items.length; i++){
@@ -286,7 +291,7 @@ export default {
             }
         },
         sendRemoveData(){
-            axios.delete('http://localhost:3000/product/' + this.productRemove._id)
+            axios.delete(this.$store.state.serverPath + 'product/' + this.productRemove._id)
             .then(res => {
                 if(res.status == 200){
                     for(var i = 0; i < this.items.length; i++){
@@ -309,8 +314,25 @@ export default {
             }
             return data;
         },
+        clearSearch(){
+            if(this.search == ""){
+                this.searchProduct();
+            }
+        },
         searchProduct(){
-            alert('No se pudo buscar' + this.search);
+            if(this.search != ""){
+                axios.get(this.$store.state.serverPath + 'find/product/' + this.search)
+                .then(res => {
+                    this.items = [];
+                    for(var product of res.data)
+                        this.items.push(this.getItem(product));
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            } else {
+                this.getTable();
+            }
         },
         validateProduct(){
             for(var input in this.product){
@@ -331,9 +353,12 @@ export default {
             if(input.value == '')
                 input.state = false;
             else{
-                axios.get('http://localhost:3000/product/code/' + input.value)
+                axios.get(this.$store.state.serverPath + 'product/code/' + input.value)
                 .then(res =>{
                     input.state = (res.data == null || this.modify);
+                })
+                .catch(err => {
+                    console.log(err);
                 });
             }
         },

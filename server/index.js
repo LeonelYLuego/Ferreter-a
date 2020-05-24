@@ -32,10 +32,12 @@ const product = require('./routes/product');
 const classification = require('./routes/classification');
 const provider = require('./routes/provider');
 const measure = require('./routes/measure');
+const find = require('./routes/find');
 app.use('/product', product);
 app.use('/classification', classification);
 app.use('/provider', provider);
 app.use('/measure', measure);
+app.use('/find', find);
 
 
 app.use(express.static('public'));
